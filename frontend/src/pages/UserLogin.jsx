@@ -1,17 +1,18 @@
 import React from "react";
 import { MdEmail, MdLock } from "react-icons/md"; // React Icons for email and lock icons
-import Logo from "../../public/Logo.svg"; // Ensure this path is correct
+import Logo from "../../public/Logo.svg"; // Logo asset
+import { Link } from "react-router-dom";
 
 const UserLogin = () => {
   return (
     <div className="h-screen bg-gray-100 flex flex-col">
       {/* Header */}
-      <div className="flex items-center py-4 px-4">
-        <img src={Logo} alt="Uber Logo" className="w-32" />
-      </div>
+      <header className="flex items-center py-4 px-4">
+        <img src={Logo} alt="Uber Logo" className="w-24" />
+      </header>
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center flex-grow  rounded-t-3xl px-8">
+      <main className="flex flex-col items-center justify-center flex-grow px-8">
         {/* Heading */}
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
           Log in to Continue
@@ -37,14 +38,37 @@ const UserLogin = () => {
           />
         </div>
 
-        {/* Continue Button */}
+        {/* Login Button */}
         <button className="w-full bg-black text-white py-3 rounded-lg text-lg font-semibold hover:bg-gray-900 transition shadow-lg">
           Login
         </button>
-      </div>
+
+        {/* Create Account Link */}
+        <div className="mt-6 w-full">
+          <p className="text-gray-600">
+            New Here?{" "}
+            <Link
+              to={"/signup"}
+              className="text-black font-medium cursor-pointer underline hover:text-gray-800 transition"
+              onClick={() => console.log("Navigate to Signup Page")}
+            >
+              Create a new one
+            </Link>
+          </p>
+        </div>
+
+        <div className="mt-2 text-start w-full">
+          <Link
+            to={"/captain-login"}
+            className="w-full block text-center bg-[#10b461] text-white py-3 rounded-lg text-lg font-semibold hover:bg-[#2e9662] transition shadow-lg mt-1"
+          >
+            Sign in as Captain
+          </Link>
+        </div>
+      </main>
 
       {/* Footer */}
-      <div className="text-center text-sm text-gray-600 mt-6 px-6">
+      <footer className="text-center text-sm text-gray-600 mt-6 px-6">
         <p>
           By continuing, you agree to Uber's{" "}
           <span className="text-black font-medium cursor-pointer">
@@ -56,7 +80,7 @@ const UserLogin = () => {
           </span>
           .
         </p>
-      </div>
+      </footer>
     </div>
   );
 };
