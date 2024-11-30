@@ -1,66 +1,120 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdEmail, MdLock } from "react-icons/md"; // React Icons for email and lock icons
 import Logo from "../../public/Logo.svg"; // Logo asset
 import { Link } from "react-router-dom";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const UserLogin = () => {
+  // State for form fields
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // Handler for input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Form submission handler
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Login Details:", formData);
+    // Add your form submission logic here
+  };
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
-    <div className="h-screen bg-gray-100 flex flex-col">
+    <div className="h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="flex items-center py-4 px-4">
         <img src={Logo} alt="Uber Logo" className="w-24" />
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center flex-grow px-8">
+      <main className="flex flex-col items-center justify-center flex-grow px-6">
         {/* Heading */}
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-          Log in to Continue
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
+          Welcome Back!
         </h1>
-
-        {/* Email Input */}
-        <div className="w-full flex items-center bg-gray-200 rounded-lg p-4 mb-4 shadow-sm">
-          <MdEmail className="text-gray-500 w-6 h-6 mr-3" />
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="flex-grow bg-transparent outline-none text-gray-700 text-lg"
-          />
-        </div>
-
-        {/* Password Input */}
-        <div className="w-full flex items-center bg-gray-200 rounded-lg p-4 mb-6 shadow-sm">
-          <MdLock className="text-gray-500 w-6 h-6 mr-3" />
-          <input
-            type="password"
-            placeholder="Enter your password"
-            className="flex-grow bg-transparent outline-none text-gray-700 text-lg"
-          />
-        </div>
-
-        {/* Login Button */}
-        <button className="w-full bg-black text-white py-3 rounded-lg text-lg font-semibold hover:bg-gray-900 transition shadow-lg">
-          Login
-        </button>
+        <p className="text-lg text-gray-600 mb-6 text-center">
+          Log in to access your account and continue your journey with{" "}
+          <span className="font-bold text-gray-900">Uber.</span>
+        </p>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="w-full">
+          {/* Email Input */}
+          <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-4 shadow-sm border border-gray-300 focus-within:border-black">
+            <MdEmail className="text-gray-500 w-6 h-6 mr-3" />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email address"
+              className="flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
+              required
+            />
+          </div>
+          {/* Password Input */}
+          <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-6 shadow-sm border border-gray-300 focus-within:border-black relative">
+            <MdLock className="text-gray-500 w-6 h-6 mr-3" />
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
+              required
+            />
+            {/* Toggle Icon */}
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-4 text-gray-500 hover:text-gray-800 focus:outline-none"
+            >
+              {showPassword ? (
+                <AiFillEye className="w-6 h-6" />
+              ) : (
+                <AiFillEyeInvisible className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+          {/* Login Button */}
+          <button
+            type="submit"
+            className="w-full bg-black text-white py-3 rounded-xl text-lg font-bold shadow-2xl transition"
+          >
+            Log In
+          </button>
+        </form>
 
         {/* Create Account Link */}
-        <div className="mt-6 w-full">
+        <div className="mt-4 w-full text-center">
           <p className="text-gray-600">
-            New Here?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               to={"/signup"}
-              className="text-black font-medium cursor-pointer underline hover:text-gray-800 transition"
-              onClick={() => console.log("Navigate to Signup Page")}
+              className="font-medium text-black underline hover:text-gray-800 transition"
             >
-              Create a new one
+              Sign Up
             </Link>
           </p>
         </div>
-
-        <div className="mt-2 text-start w-full">
+        {/* Sign in as Captain */}
+        <div className="mt-12 w-full">
           <Link
             to={"/captain-login"}
-            className="w-full block text-center bg-[#10b461] text-white py-3 rounded-lg text-lg font-semibold hover:bg-[#2e9662] transition shadow-lg mt-1"
+            className="block text-center bg-green-500 text-white py-3 rounded-xl text-lg font-bold hover:bg-green-600 transition shadow-lg"
           >
             Sign in as Captain
           </Link>
@@ -68,14 +122,14 @@ const UserLogin = () => {
       </main>
 
       {/* Footer */}
-      <footer className="text-center text-sm text-gray-600 mt-6 px-6">
+      <footer className="text-center text-sm text-gray-500 mt-8 px-6">
         <p>
-          By continuing, you agree to Uber's{" "}
-          <span className="text-black font-medium cursor-pointer">
+          By logging in, you agree to our{" "}
+          <span className="font-medium text-gray-700 cursor-pointer">
             Terms of Service
           </span>{" "}
           and{" "}
-          <span className="text-black font-medium cursor-pointer">
+          <span className="font-medium text-gray-700 cursor-pointer">
             Privacy Policy
           </span>
           .
