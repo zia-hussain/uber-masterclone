@@ -6,6 +6,7 @@ import UserSignup from "./pages/UserSignup";
 import CaptainLogin from "./pages/CaptainLogin";
 import CaptainSignup from "./pages/CaptainSignup";
 import UnsupportedScreenModal from "./components/UnsupportedScreenModal";
+import Design from "./pages/Design";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
