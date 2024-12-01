@@ -26,6 +26,11 @@ const UserLogin = () => {
     e.preventDefault();
     console.log("Login Details:", formData);
     // Add your form submission logic here
+
+    setFormData({
+      email: "",
+      password: "",
+    });
   };
   // Toggle password visibility
   const togglePasswordVisibility = () => {
