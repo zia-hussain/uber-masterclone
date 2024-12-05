@@ -45,7 +45,7 @@ const UserLogin = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center flex-grow px-6">
+      <main className="flex flex-col items-center justify-center flex-grow px-6 max-w-md mx-auto">
         {/* Heading */}
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
           Welcome Back!
