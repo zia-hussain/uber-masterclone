@@ -55,7 +55,7 @@ const CaptainSignup = () => {
         </p>
 
         {/* Form */}
-        <form className="w-full max-w-md" onSubmit={handleSubmit}>
+        <form className="w-full max-w-lg" onSubmit={handleSubmit}>
           {/* First and Last Name */}
           <div className="flex space-x-4 mb-4 w-full">
             <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
