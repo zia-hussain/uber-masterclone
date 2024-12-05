@@ -36,14 +36,14 @@ const CaptainLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
       {/* Header */}
       <header className="flex items-center py-4 px-4">
         <img src={Logo} alt="Uber Logo" className="w-24" />
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center flex-grow px-6">
+      <main className="max-w-md mx-auto flex flex-col items-center justify-center flex-grow px-6">
         {/* Heading */}
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
           Captain Login
@@ -53,7 +53,7 @@ const CaptainLogin = () => {
           <span className="font-bold text-gray-900">Uber Captain.</span>
         </p>
         {/* Form */}
-        <form onSubmit={handleSubmit} className="w-full max-w-md">
+        <form onSubmit={handleSubmit} className="w-full">
           {/* Email Input */}
           <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-4 shadow-sm border border-gray-300 focus-within:border-blue-500">
             <MdEmail className="text-gray-500 w-6 h-6 mr-3" />
