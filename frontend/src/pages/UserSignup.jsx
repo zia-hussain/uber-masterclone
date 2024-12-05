@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import { MdEmail, MdLock, MdPerson } from "react-icons/md"; // React Icons
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Icons for toggle visibility
+import { MdEmail } from "react-icons/md";
+import { MdLock } from "react-icons/md";
+import { MdPerson } from "react-icons/md";
+
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Logo from "../../public/Logo.svg";
 import { Link } from "react-router-dom";
 
 const UserSignup = () => {
-  // State for form fields
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
 
-  // State to manage password visibility
   const [showPassword, setShowPassword] = useState(false);
 
-  // Handler for input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,7 +25,6 @@ const UserSignup = () => {
     }));
   };
 
-  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -37,8 +37,7 @@ const UserSignup = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center flex-grow px-6">
-        {/* Heading */}
+      <main className=" max-w-md mx-auto flex flex-col items-center justify-center flex-grow px-4">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
           Create Your Account
         </h1>
@@ -47,20 +46,35 @@ const UserSignup = () => {
           <span className="font-bold text-gray-900">Uber.</span>
         </p>
         {/* Form */}
-        <form className="w-full max-w-md">
-          {/* Full Name Input */}
-          <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-4 shadow-sm border border-gray-300 focus-within:border-black">
-            <MdPerson className="text-gray-500 w-6 h-6 mr-3" />
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Full Name"
-              className="flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
-              required
-            />
+        <form className="w-full">
+          {/* First and Last Name */}
+          <div className="flex space-x-4 mb-4 w-full">
+            <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
+              <MdPerson className="text-gray-500 w-8 h-8 mr-3" />
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="First Name"
+                className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
+                required
+              />
+            </div>
+            <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
+              <MdPerson className="text-gray-500 w-8 h-8 mr-3" />
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last Name"
+                className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
+                required
+              />
+            </div>
           </div>
+
           {/* Email Input */}
           <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-4 shadow-sm border border-gray-300 focus-within:border-black">
             <MdEmail className="text-gray-500 w-6 h-6 mr-3" />
@@ -74,6 +88,7 @@ const UserSignup = () => {
               required
             />
           </div>
+
           {/* Password Input */}
           <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-6 shadow-sm border border-gray-300 focus-within:border-black relative">
             <MdLock className="text-gray-500 w-6 h-6 mr-3" />
@@ -86,7 +101,6 @@ const UserSignup = () => {
               className="flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
               required
             />
-            {/* Toggle Icon */}
             <button
               type="button"
               onClick={togglePasswordVisibility}
@@ -99,6 +113,7 @@ const UserSignup = () => {
               )}
             </button>
           </div>
+
           {/* Sign Up Button */}
           <button
             type="submit"
@@ -119,16 +134,6 @@ const UserSignup = () => {
               Log In
             </Link>
           </p>
-        </div>
-
-        {/* Sign in as Captain */}
-        <div className="mt-12 w-full">
-          <Link
-            to={"/captain-login"}
-            className="block text-center bg-green-500 text-white py-3 rounded-xl text-lg font-bold hover:bg-green-600 transition shadow-lg"
-          >
-            Sign up as Captain
-          </Link>
         </div>
       </main>
 
