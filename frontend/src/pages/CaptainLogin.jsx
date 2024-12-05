@@ -43,7 +43,7 @@ const CaptainLogin = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-md mx-auto flex flex-col items-center justify-center flex-grow px-6">
+      <main className="max-w-lg mx-auto flex flex-col items-center justify-center flex-grow px-6">
         {/* Heading */}
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
           Captain Login
