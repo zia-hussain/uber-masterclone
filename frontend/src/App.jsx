@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
 import CaptainLogin from "./pages/CaptainLogin";
 import CaptainSignup from "./pages/CaptainSignup";
 import UnsupportedScreenModal from "./components/UnsupportedScreenModal";
+import Start from "./pages/Start";
+import Home from "./pages/Home";
+import UserContext from "./context/UserContext";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -25,21 +27,24 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      {/* Modal for non-mobile screens */}
-      {!isMobile && <UnsupportedScreenModal />}
+    <UserContext>
+      <div>
+        {/* Modal for non-mobile screens */}
+        {!isMobile && <UnsupportedScreenModal />}
 
-      {/* App Routes */}
-      <div className={`${!isMobile ? "overflow-hidden h-screen" : ""}`}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<UserLogin />} />
-          <Route path="/signup" element={<UserSignup />} />
-          <Route path="/captain-login" element={<CaptainLogin />} />
-          <Route path="/captain-signup" element={<CaptainSignup />} />
-        </Routes>
+        {/* App Routes */}
+        <div className={`${!isMobile ? "overflow-hidden h-screen" : ""}`}>
+          <Routes>
+            <Route path="/" element={<Start />} />
+            <Route path="/login" element={<UserLogin />} />
+            <Route path="/signup" element={<UserSignup />} />
+            <Route path="/captain-login" element={<CaptainLogin />} />
+            <Route path="/captain-signup" element={<CaptainSignup />} />
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </UserContext>
   );
 };
 
