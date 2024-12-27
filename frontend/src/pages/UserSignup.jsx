@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { MdLock } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
-
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Logo from "../../public/Logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/UserContext";
+import axios from "axios";
 
 const UserSignup = () => {
+  const navigate = useNavigate();
+  const { setUser } = useContext(UserDataContext);
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullname: {
+      firstname: "",
+      lastname: "",
+    },
     email: "",
     password: "",
   });
@@ -19,10 +25,36 @@ const UserSignup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    if (name === "firstname" || name === "lastname") {
+      setFormData((prevData) => ({
+        ...prevData,
+        fullname: {
+          ...prevData.fullname,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevents page reload
+    const newUser = { ...formData };
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/register`,
+      newUser
+    );
+    if (response.status === 201) {
+      const data = response.data;
+
+      setUser(data.user);
+      navigate("/home");
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -46,15 +78,15 @@ const UserSignup = () => {
           <span className="font-bold text-gray-900">Uber.</span>
         </p>
         {/* Form */}
-        <form className="w-full">
+        <form className="w-full" onSubmit={handleSubmit}>
           {/* First and Last Name */}
           <div className="flex space-x-4 mb-4 w-full">
             <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
               <MdPerson className="text-gray-500 w-8 h-8 mr-3" />
               <input
                 type="text"
-                name="firstName"
-                value={formData.firstName}
+                name="firstname"
+                value={formData.fullname.firstname}
                 onChange={handleChange}
                 placeholder="First Name"
                 className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
@@ -65,8 +97,8 @@ const UserSignup = () => {
               <MdPerson className="text-gray-500 w-8 h-8 mr-3" />
               <input
                 type="text"
-                name="lastName"
-                value={formData.lastName}
+                name="lastname"
+                value={formData.fullname.lastname}
                 onChange={handleChange}
                 placeholder="Last Name"
                 className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
