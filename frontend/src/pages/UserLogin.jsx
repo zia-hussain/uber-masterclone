@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MdEmail, MdLock } from "react-icons/md"; // React Icons for email and lock icons
 import Logo from "../../public/Logo.svg"; // Logo asset
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/UserContext";
+import { Navigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import axios from "axios";
 
 const UserLogin = () => {
   // State for form fields
@@ -11,21 +14,30 @@ const UserLogin = () => {
     email: "",
     password: "",
   });
+  const { user, setUser } = useContext(UserDataContext);
+  const navigate = useNavigate();
 
   // Handler for input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
   };
 
   // Form submission handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Login Details:", formData);
-    // Add your form submission logic here
+    const userData = {
+      email: formData.email,
+      password: formData.password,
+    };
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/login`,
+      userData
+    );
+    if (response.status === 200) {
+      setUser(response.data);
+      navigate("/home");
+    }
 
     setFormData({
       email: "",
