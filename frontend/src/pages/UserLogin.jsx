@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { MdEmail, MdLock } from "react-icons/md"; // React Icons for email and lock icons
 import Logo from "../../public/Logo.svg"; // Logo asset
-import { Link, useNavigate } from "react-router-dom";
+import { data, Link, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -20,23 +20,32 @@ const UserLogin = () => {
   // Handler for input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Details:", formData);
-    const userData = {
-      email: formData.email,
-      password: formData.password,
-    };
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/users/login`,
-      userData
-    );
-    if (response.status === 200) {
-      setUser(response.data);
-      navigate("/home");
+    try {
+      const userData = {
+        email: formData.email,
+        password: formData.password,
+      };
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/login`,
+        userData
+      );
+      if (response.status === 200) {
+        setUser(response.data);
+        localStorage.setItem("token", response.data?.token);
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed. Please check your credentials.");
     }
 
     setFormData({
@@ -44,6 +53,7 @@ const UserLogin = () => {
       password: "",
     });
   };
+
   // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
