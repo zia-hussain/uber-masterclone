@@ -8,6 +8,8 @@ import UnsupportedScreenModal from "./components/UnsupportedScreenModal";
 import Start from "./pages/Start";
 import Home from "./pages/Home";
 import UserContext from "./context/UserContext";
+import UserProtectedWrapper from "./pages/UserProtectedWrapper";
+import UserLogout from "./pages/UserLogout";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -40,7 +42,23 @@ const App = () => {
             <Route path="/signup" element={<UserSignup />} />
             <Route path="/captain-login" element={<CaptainLogin />} />
             <Route path="/captain-signup" element={<CaptainSignup />} />
-            <Route path="/home" element={<Home />} />
+            <Route
+              path="/home"
+              element={
+                <UserProtectedWrapper>
+                  <Home />
+                </UserProtectedWrapper>
+              }
+            />
+            <Route
+              path="/user/logout"
+              element={
+                <UserProtectedWrapper>
+                  <UserLogout />
+                </UserProtectedWrapper>
+              }
+            />
+            {/* <Route path="/user-signup" element={<CaptainSignup />} /> */}
           </Routes>
         </div>
       </div>
