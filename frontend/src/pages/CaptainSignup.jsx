@@ -79,7 +79,7 @@ const CaptainSignup = () => {
         <img src={Logo} alt="Uber Logo" className="w-24" />
       </header>
 
-      <main className="flex flex-col items-center justify-center flex-grow px-4">
+      <main className="max-w-lg mx-auto flex flex-col items-center justify-center flex-grow px-4">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
           Join as a Captain
         </h1>
@@ -217,7 +217,7 @@ const CaptainSignup = () => {
             type="submit"
             className="w-full bg-black text-white py-3 rounded-xl text-lg font-bold shadow-2xl transition"
           >
-            Sign Up as Captain
+            Sign Up
           </button>
         </form>
 
@@ -234,7 +234,7 @@ const CaptainSignup = () => {
         </div>
 
         {/* User Login Link */}
-        <div className="mt-12 w-[85%]">
+        <div className="mt-12 w-full">
           <Link
             to={"/signup"}
             className="block text-center bg-gray-800 text-white py-3 rounded-xl text-lg font-bold hover:bg-gray-900 transition shadow-lg"
