@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { MdEmail, MdLock } from "react-icons/md"; // React Icons for email and lock icons
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Icons for password visibility toggle
 import Logo from "../../public/Logo.svg"; // Logo asset
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { CaptainDataContext } from "../context/CaptainContext";
 
 const CaptainLogin = () => {
+  const { captain, setCaptain } = React.useContext(CaptainDataContext);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,10 +25,20 @@ const CaptainLogin = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Login Details:", formData);
-    // Add your form submission logic here
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/captains/login`,
+      formData
+    );
+    if (response.status === 200) {
+      const data = response.data;
+      setCaptain(data.captain);
+      localStorage.setItem("token", data.token);
+      navigate("/captain-home");
+    }
 
     setFormData({
       email: "",
