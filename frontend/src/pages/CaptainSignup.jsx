@@ -1,50 +1,84 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MdEmail, MdLock, MdPerson } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FaCar } from "react-icons/fa";
 import Logo from "../../public/Logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { CaptainDataContext } from "../context/CaptainContext";
+import axios from "axios";
 
 const CaptainSignup = () => {
+  const navigate = useNavigate();
+  const { captain, setCaptain } = useContext(CaptainDataContext);
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullname: { firstname: "", lastname: "" },
     email: "",
     password: "",
-    vehicleColor: "",
-    plateNumber: "",
-    capacity: "",
-    vehicleType: "",
+    vehicle: { color: "", plate: "", capacity: "", vehicleType: "" },
   });
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    setFormData((prevData) => {
+      if (name === "firstname" || name === "lastname") {
+        return {
+          ...prevData,
+          fullname: { ...prevData.fullname, [name]: value },
+        };
+      }
+
+      if (["color", "plate", "capacity", "vehicleType"].includes(name)) {
+        return {
+          ...prevData,
+          vehicle: { ...prevData.vehicle, [name]: value },
+        };
+      }
+
+      return { ...prevData, [name]: value };
+    });
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit the form data
-    console.log("Captain Signup Data:", formData);
+
+    const isFormValid = Object.entries(formData).every(([key, value]) => {
+      if (typeof value === "object") {
+        return Object.values(value).every((subValue) => subValue);
+      }
+      return value;
+    });
+
+    if (!isFormValid) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/captains/register`,
+        formData
+      );
+
+      setCaptain(data.captain);
+      localStorage.setItem("token", data.token);
+      navigate("/captain-home");
+    } catch (error) {
+      console.error("Signup error:", error.response?.data || error.message);
+      alert("Signup failed. Please try again.");
+    }
   };
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
       <header className="flex items-center py-4 px-4">
         <img src={Logo} alt="Uber Logo" className="w-24" />
       </header>
 
-      {/* Main Content */}
       <main className="flex flex-col items-center justify-center flex-grow px-4">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
           Join as a Captain
@@ -54,37 +88,30 @@ const CaptainSignup = () => {
           <span className="font-bold text-gray-900">Uber.</span>
         </p>
 
-        {/* Form */}
         <form className="w-full max-w-lg" onSubmit={handleSubmit}>
-          {/* First and Last Name */}
           <div className="flex space-x-4 mb-4 w-full">
-            <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
-              <MdPerson className="text-gray-500 w-6 h-6 mr-3" />
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="First Name"
-                className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
-                required
-              />
-            </div>
-            <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
-              <MdPerson className="text-gray-500 w-6 h-6 mr-3" />
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Last Name"
-                className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
-                required
-              />
-            </div>
+            {[
+              { name: "firstname", placeholder: "First Name" },
+              { name: "lastname", placeholder: "Last Name" },
+            ].map((field) => (
+              <div
+                key={field.name}
+                className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black"
+              >
+                <MdPerson className="text-gray-500 w-6 h-6 mr-3" />
+                <input
+                  type="text"
+                  name={field.name}
+                  value={formData.fullname[field.name]}
+                  onChange={handleChange}
+                  placeholder={field.placeholder}
+                  className="w-full bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
+                  required
+                />
+              </div>
+            ))}
           </div>
 
-          {/* Email Input */}
           <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-4 shadow-sm border border-gray-300 focus-within:border-black">
             <MdEmail className="text-gray-500 w-6 h-6 mr-3" />
             <input
@@ -98,7 +125,6 @@ const CaptainSignup = () => {
             />
           </div>
 
-          {/* Password Input */}
           <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-4 shadow-sm border border-gray-300 focus-within:border-black relative">
             <MdLock className="text-gray-500 w-6 h-6 mr-3" />
             <input
@@ -123,14 +149,13 @@ const CaptainSignup = () => {
             </button>
           </div>
 
-          {/* Vehicle Details */}
           <div className="flex space-x-4 mb-4 w-full">
             <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
               <FaCar className="text-gray-500 w-6 h-6 mr-3" />
               <input
                 type="text"
-                name="vehicleColor"
-                value={formData.vehicleColor}
+                name="color"
+                value={formData.vehicle.color}
                 onChange={handleChange}
                 placeholder="Vehicle Color"
                 className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
@@ -141,8 +166,8 @@ const CaptainSignup = () => {
               <FaCar className="text-gray-500 w-6 h-6 mr-3" />
               <input
                 type="text"
-                name="plateNumber"
-                value={formData.plateNumber}
+                name="plate"
+                value={formData.vehicle.plate}
                 onChange={handleChange}
                 placeholder="Plate Number"
                 className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
@@ -154,9 +179,9 @@ const CaptainSignup = () => {
             <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
               <FaCar className="text-gray-500 w-6 h-6 mr-3" />
               <input
-                type="text"
+                type="number"
                 name="capacity"
-                value={formData.capacity}
+                value={formData.vehicle.capacity}
                 onChange={handleChange}
                 placeholder="Capacity"
                 className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
@@ -165,19 +190,29 @@ const CaptainSignup = () => {
             </div>
             <div className="w-full flex items-center bg-gray-100 rounded-xl py-4 px-2 shadow-sm border border-gray-300 focus-within:border-black">
               <FaCar className="text-gray-500 w-6 h-6 mr-3" />
-              <input
-                type="text"
+              <select
                 name="vehicleType"
-                value={formData.vehicleType}
+                value={formData.vehicle.vehicleType}
                 onChange={handleChange}
-                placeholder="Vehicle Type"
-                className="w-full flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
+                className="w-full flex-grow bg-transparent outline-none text-base text-gray-500 placeholder-gray-500"
                 required
-              />
+              >
+                <option value="" disabled className="text-gray-500">
+                  Select Vehicle Type
+                </option>
+                <option className="!text-gray-800" value="moto">
+                  Moto
+                </option>
+                <option className="!text-gray-800" value="auto">
+                  Auto
+                </option>
+                <option className="!text-gray-800" value="car">
+                  Car
+                </option>
+              </select>
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-black text-white py-3 rounded-xl text-lg font-bold shadow-2xl transition"
@@ -186,8 +221,7 @@ const CaptainSignup = () => {
           </button>
         </form>
 
-        {/* Already have an account Link */}
-        <div className="mt-4 w-full text-center">
+        <div className="mt-4 text-center">
           <p className="text-gray-600">
             Already have an account?{" "}
             <Link
@@ -197,6 +231,16 @@ const CaptainSignup = () => {
               Log In
             </Link>
           </p>
+        </div>
+
+        {/* User Login Link */}
+        <div className="mt-12 w-[85%]">
+          <Link
+            to={"/signup"}
+            className="block text-center bg-gray-800 text-white py-3 rounded-xl text-lg font-bold hover:bg-gray-900 transition shadow-lg"
+          >
+            Sign Up as User
+          </Link>
         </div>
       </main>
 
