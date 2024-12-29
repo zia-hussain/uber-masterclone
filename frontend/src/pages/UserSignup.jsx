@@ -69,7 +69,7 @@ const UserSignup = () => {
       </header>
 
       {/* Main Content */}
-      <main className=" max-w-lg mx-auto flex flex-col items-center justify-center flex-grow px-4">
+      <main className="max-w-lg mx-auto flex flex-col items-center justify-center flex-grow px-4">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
           Create Your Account
         </h1>
