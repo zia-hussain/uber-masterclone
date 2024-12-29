@@ -167,6 +167,15 @@ const UserSignup = () => {
             </Link>
           </p>
         </div>
+        {/* Sign in as Captain */}
+        <div className="mt-12 w-full">
+          <Link
+            to={"/captain-signup"}
+            className="block text-center bg-green-500 text-white py-3 rounded-xl text-lg font-bold hover:bg-green-600 transition shadow-lg"
+          >
+            Sign up as Captain
+          </Link>
+        </div>
       </main>
 
       {/* Footer */}
