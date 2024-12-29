@@ -135,7 +135,7 @@ const CaptainLogin = () => {
             to={"/login"}
             className="block text-center bg-gray-800 text-white py-3 rounded-xl text-lg font-bold hover:bg-gray-900 transition shadow-lg"
           >
-            Login as User
+            Sign in as User
           </Link>
         </div>
       </main>
