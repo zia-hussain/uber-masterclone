@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import UserContext from "./context/UserContext";
 import UserProtectedWrapper from "./pages/UserProtectedWrapper";
 import UserLogout from "./pages/UserLogout";
+import CaptainHome from "./pages/CaptainHome";
+import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -58,7 +60,14 @@ const App = () => {
                 </UserProtectedWrapper>
               }
             />
-            {/* <Route path="/user-signup" element={<CaptainSignup />} /> */}
+            <Route
+              path="/captain-home"
+              element={
+                <CaptainProtectWrapper>
+                  <CaptainHome />
+                </CaptainProtectWrapper>
+              }
+            />
           </Routes>
         </div>
       </div>
