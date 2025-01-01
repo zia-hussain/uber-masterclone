@@ -32,26 +32,15 @@ const CaptainLogin = () => {
       email: formData.email,
       password: formData.password,
     };
-
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/captains/login`,
-        captain,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/captains/login`,
+      captain
+    );
+    if (response.status === 200) {
       const data = response.data;
-      console.log("Response", response);
       setCaptain(data.captain);
       localStorage.setItem("token", data.token);
       navigate("/captain-home");
-    } catch (err) {
-      console.error("Error", err.response || err);
-      alert(err.response?.data?.message || "Login failed.");
     }
 
     setFormData({
