@@ -42,7 +42,7 @@ module.exports.loginCaptain = async (req, res, next) => {
   }
 
   const { email, password } = req.body;
-
+  console.log("Email", email);
   const captain = await captainModel.findOne({ email }).select("+password");
 
   if (!captain) {
