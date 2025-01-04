@@ -1,7 +1,7 @@
 import React from "react";
 import { FaMapMarkerAlt, FaStar, FaTrain } from "react-icons/fa";
 
-const LocationSearchPanel = () => {
+const LocationSearchPanel = ({ setIsLocationDone, setIsExpanded }) => {
   // Sample dummy data
   const locations = [
     {
@@ -51,6 +51,10 @@ const LocationSearchPanel = () => {
       <div className="flex flex-col space-y-2">
         {locations.map((location, index) => (
           <button
+            onClick={() => {
+              setIsExpanded(false);
+              setIsLocationDone(true);
+            }}
             key={index}
             className="flex items-center p-3 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200 transition-all"
           >
