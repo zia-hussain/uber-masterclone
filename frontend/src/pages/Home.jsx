@@ -26,15 +26,20 @@ const Home = () => {
   const handleSelectRide = (optionName) => setSelectedRide(optionName);
 
   // Animation for vehicle panel
-  useEffect(() => {
-    const animationSettings = {
-      y: isLocationDone ? "0%" : "100%",
-      height: isLocationDone ? "28rem" : "0rem",
-      duration: 0.6,
-      ease: isLocationDone ? "power3.out" : "power3.in",
-    };
-    gsap.to(vehiclePanelRef.current, animationSettings);
-  }, [isLocationDone]);
+  useEffect(
+    function () {
+      if (isLocationDone) {
+        gsap.to(vehiclePanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(vehiclePanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [isLocationDone]
+  );
 
   useEffect(() => {
     const panelSettings = {
@@ -69,7 +74,7 @@ const Home = () => {
 
       {/* Trip Finder */}
       <div
-        className={`absolute left-0 top-0 z-20 h-screen w-full transition-all duration-700 ${
+        className={`absolute left-0 top-0 z-20 h-screen w-full transition-all duration-700 overflow-hidden ${
           isExpanded ? "bg-white" : ""
         }`}
       >
@@ -77,7 +82,7 @@ const Home = () => {
           className={`flex flex-col justify-end h-full relative overflow-hidden`}
         >
           <div
-            className={`bg-white p-6 rounded-t-2xl relative ${
+            className={`bg-white px-4 py-6 rounded-t-2xl relative ${
               isExpanded ? "h-[30%]" : ""
             }`}
           >
@@ -146,11 +151,10 @@ const Home = () => {
       {/* Vehicle Panel */}
       <div
         ref={vehiclePanelRef}
-        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl ${
-          isLocationDone ? "block" : "hidden"
-        }`}
+        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
       >
         <VehiclePanel
+          setIsLocationDone={setIsLocationDone}
           selectedRide={selectedRide}
           handleSelectRide={handleSelectRide}
         />
