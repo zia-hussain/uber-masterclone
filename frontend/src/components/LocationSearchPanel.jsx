@@ -47,8 +47,8 @@ const LocationSearchPanel = ({ setIsLocationDone, setIsExpanded }) => {
   };
 
   return (
-    <div>
-      <div className="flex flex-col space-y-2">
+    <>
+      <div className="flex flex-col space-y-2 ">
         {locations.map((location, index) => (
           <button
             onClick={() => {
@@ -68,7 +68,7 @@ const LocationSearchPanel = ({ setIsLocationDone, setIsExpanded }) => {
           </button>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
