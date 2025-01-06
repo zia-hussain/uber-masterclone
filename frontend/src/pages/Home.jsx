@@ -7,17 +7,20 @@ import Logo from "../../public/Logo.svg";
 import Map from "../assets/map.gif";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VehiclePanel from "../components/VehiclePanel";
+import ConfirmedRide from "../components/ConfirmedRide";
 
 const Home = () => {
   // State management
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLocationDone, setIsLocationDone] = useState(false);
   const [selectedRide, setSelectedRide] = useState(null);
+  const [isRideConfirmed, setIsRideConfirmed] = useState(false);
 
   // Refs for animations
   const vehiclePanelRef = useRef(null);
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
+  const rideConfirmedRef = useRef(null);
 
   // Handlers
   const handleExpand = () => setIsExpanded(true);
@@ -26,6 +29,21 @@ const Home = () => {
   const handleSelectRide = (optionName) => setSelectedRide(optionName);
 
   // Animation for vehicle panel
+  useEffect(
+    function () {
+      if (isRideConfirmed) {
+        gsap.to(rideConfirmedRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(rideConfirmedRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [isRideConfirmed]
+  );
+
   useEffect(
     function () {
       if (isLocationDone) {
@@ -78,9 +96,7 @@ const Home = () => {
           isExpanded ? "bg-white" : ""
         }`}
       >
-        <div
-          className={`flex flex-col justify-end h-full relative overflow-hidden`}
-        >
+        <div className={`flex flex-col justify-end h-full relative`}>
           <div
             className={`bg-white px-4 py-6 rounded-t-2xl relative ${
               isExpanded ? "h-[30%]" : ""
@@ -154,10 +170,19 @@ const Home = () => {
         className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
       >
         <VehiclePanel
+          IsrideConfirmedRef={setIsRideConfirmed}
           setIsLocationDone={setIsLocationDone}
           selectedRide={selectedRide}
           handleSelectRide={handleSelectRide}
         />
+      </div>
+
+      {/* Confirmed Ride Panel */}
+      <div
+        ref={rideConfirmedRef}
+        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
+      >
+        <ConfirmedRide setIsRideConfirmed={setIsRideConfirmed} />
       </div>
     </div>
   );
