@@ -1,7 +1,12 @@
 import React from "react";
 import { FaUser } from "react-icons/fa";
+import { RiArrowDownWideLine } from "react-icons/ri";
 
-const VehiclePanel = ({ handleSelectRide, selectedRide }) => {
+const VehiclePanel = ({
+  handleSelectRide,
+  selectedRide,
+  setIsLocationDone,
+}) => {
   const rideOptions = [
     {
       name: "UberGo",
@@ -34,17 +39,24 @@ const VehiclePanel = ({ handleSelectRide, selectedRide }) => {
   return (
     <div className="p-6 bg-gray-50 rounded-lg shadow-lg">
       {/* Drag Handle */}
-      <div className="w-14 h-1 bg-gray-300 rounded-full mx-auto mb-6"></div>
+      <h5
+        className="p-1 text-center left-1/2 transform -translate-x-1/2  absolute top-0"
+        onClick={() => {
+          setIsLocationDone(false);
+        }}
+      >
+        <RiArrowDownWideLine className="text-gray-300 text-4xl" />
+      </h5>
 
       {/* Header */}
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 ">Choose a Ride</h2>
+      <h2 className="text-2xl font-bold text-gray-800 my-6 ">Choose a Ride</h2>
 
       {/* Ride Options */}
       <div className="space-y-4">
         {rideOptions.map((option) => (
           <div
             key={option.name}
-            className={`flex items-center justify-between p-4 rounded-lg transition-all border-2 cursor-pointer ${
+            className={`flex items-center justify-between p-4 bg-white rounded-lg transition-all border-2 cursor-pointer ${
               selectedRide === option.name ? "border-black" : "border-gray-200"
             } hover:shadow-md hover:border-gray-400`}
             onClick={() => handleSelectRide(option.name)}
