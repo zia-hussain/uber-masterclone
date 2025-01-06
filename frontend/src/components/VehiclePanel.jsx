@@ -3,6 +3,7 @@ import { FaUser } from "react-icons/fa";
 import { RiArrowDownWideLine } from "react-icons/ri";
 
 const VehiclePanel = ({
+  IsrideConfirmedRef,
   handleSelectRide,
   selectedRide,
   setIsLocationDone,
@@ -59,7 +60,11 @@ const VehiclePanel = ({
             className={`flex items-center justify-between p-4 bg-white rounded-lg transition-all border-2 cursor-pointer ${
               selectedRide === option.name ? "border-black" : "border-gray-200"
             } hover:shadow-md hover:border-gray-400`}
-            onClick={() => handleSelectRide(option.name)}
+            onClick={() => {
+              IsrideConfirmedRef(true);
+              setIsLocationDone(false);
+              handleSelectRide(option.name);
+            }}
           >
             {/* Left Section: Icon and Details */}
             <div className="flex items-center space-x-4">
