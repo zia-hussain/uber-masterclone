@@ -5,7 +5,7 @@ import { RiArrowDownWideLine } from "react-icons/ri";
 
 const LookingForDriver = ({ setLookingForDriver }) => {
   return (
-    <div className=" w-full flex flex-col bg-white">
+    <div className=" w-full flex flex-col bg-white rounded-t-3xl">
       <div className="relative p-4 border-b">
         <button
           className="absolute left-1/2 transform -translate-x-1/2 top-0"
