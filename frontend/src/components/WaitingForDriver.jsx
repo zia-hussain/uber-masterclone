@@ -4,6 +4,14 @@ import { RiArrowDownWideLine } from "react-icons/ri";
 const WaitingForDriver = ({ setWaitingForDriver }) => {
   return (
     <div className="w-full flex flex-col bg-white shadow-lg rounded-t-3xl">
+      <div className="relative p-1">
+        <button
+          className="absolute left-1/2 transform -translate-x-1/2 top-1 w-12 h-6 flex items-center justify-center"
+          onClick={() => setWaitingForDriver(false)}
+        >
+          <RiArrowDownWideLine className="text-gray-400 text-4xl" />
+        </button>
+      </div>
       <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
         <h1 className="text-[26px] font-bold leading-tight">
           Meet at the pickup point
@@ -14,15 +22,15 @@ const WaitingForDriver = ({ setWaitingForDriver }) => {
         </div>
       </div>
       <div className="p-4 flex items-center gap-6">
-        <div className="flex items-center gap-3">
-          <div className="w-14 h-14">
+        <div className="flex items-center gap-3 bg-black relative w-28">
+          <div className="w-14 h-14 absolute z-20">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAjTxRiHVIbiKFtzSIXF5BpjADNAVDXchaDQ&s"
               alt="Driver"
               className="w-full h-full rounded-full object-cover"
             />
           </div>
-          <div className="w-16 h-12">
+          <div className="w-16 h-14 absolute right-3 z-10">
             <img
               src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1648431773/assets/1d/db8c56-0204-4ce4-81ce-56a11a07fe98/original/Uber_Auto_558x372_pixels_Desktop.png"
               alt="Car"
@@ -45,14 +53,6 @@ const WaitingForDriver = ({ setWaitingForDriver }) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="relative p-1">
-        <button
-          className="absolute left-1/2 transform -translate-x-1/2 top-1 w-12 h-6 flex items-center justify-center"
-          onClick={() => setWaitingForDriver(false)}
-        >
-          <RiArrowDownWideLine className="text-gray-400 text-3xl" />
-        </button>
       </div>
     </div>
   );
