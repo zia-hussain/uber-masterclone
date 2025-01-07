@@ -8,6 +8,8 @@ import Map from "../assets/map.gif";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VehiclePanel from "../components/VehiclePanel";
 import ConfirmedRide from "../components/ConfirmedRide";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from "../components/WaitingForDriver";
 
 const Home = () => {
   // State management
@@ -15,12 +17,16 @@ const Home = () => {
   const [isLocationDone, setIsLocationDone] = useState(false);
   const [selectedRide, setSelectedRide] = useState(null);
   const [isRideConfirmed, setIsRideConfirmed] = useState(false);
+  const [islookingForDriver, setLookingForDriver] = useState(false);
+  const [iswaitingForDriver, setWaitingForDriver] = useState(true);
 
   // Refs for animations
   const vehiclePanelRef = useRef(null);
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const rideConfirmedRef = useRef(null);
+  const lookingForDriver = useRef(null);
+  const waitingForDriver = useRef(null);
 
   // Handlers
   const handleExpand = () => setIsExpanded(true);
@@ -59,6 +65,36 @@ const Home = () => {
     [isLocationDone]
   );
 
+  useEffect(
+    function () {
+      if (iswaitingForDriver) {
+        gsap.to(waitingForDriver.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(waitingForDriver.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [iswaitingForDriver]
+  );
+
+  useEffect(
+    function () {
+      if (islookingForDriver) {
+        gsap.to(lookingForDriver.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(lookingForDriver.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [islookingForDriver]
+  );
+
   useEffect(() => {
     const panelSettings = {
       height: isExpanded ? "70%" : "0%",
@@ -71,7 +107,7 @@ const Home = () => {
   }, [isExpanded]);
 
   return (
-    <div className="h-screen relative">
+    <div className="h-screen relative overflow-hidden">
       {/* Header */}
       <header className="flex justify-between items-center px-6 bg-white shadow-md relative z-10">
         <Link to="/home">
@@ -79,9 +115,9 @@ const Home = () => {
         </Link>
         <button
           onClick={handleProfileRedirect}
-          className="flex items-center justify-center p-3 bg-black text-white rounded-full shadow-md hover:bg-gray-800 focus:ring-2 focus:ring-gray-400"
+          className="flex items-center justify-center text-white rounded-full"
         >
-          <FaUserCircle size={30} />
+          <FaUserCircle size={30} className="bg-gray-500 rounded-full" />
         </button>
       </header>
 
@@ -92,7 +128,7 @@ const Home = () => {
 
       {/* Trip Finder */}
       <div
-        className={`absolute left-0 top-0 z-20 h-screen w-full transition-all duration-700 overflow-hidden ${
+        className={`absolute left-0 top-0 z-20 h-screen w-full transition-all duration-700  ${
           isExpanded ? "bg-white" : ""
         }`}
       >
@@ -182,7 +218,28 @@ const Home = () => {
         ref={rideConfirmedRef}
         className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
       >
-        <ConfirmedRide setIsRideConfirmed={setIsRideConfirmed} />
+        <ConfirmedRide
+          setLookingForDriver={setLookingForDriver}
+          setIsRideConfirmed={setIsRideConfirmed}
+        />
+      </div>
+
+      {/* Looking for driver Panel */}
+      <div
+        ref={lookingForDriver}
+        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
+      >
+        <LookingForDriver
+          setWaitingForDriver={setWaitingForDriver}
+          setLookingForDriver={setLookingForDriver}
+        />
+      </div>
+
+      <div
+        ref={waitingForDriver}
+        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
+      >
+        <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
       </div>
     </div>
   );
