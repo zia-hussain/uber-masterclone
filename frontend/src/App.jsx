@@ -12,6 +12,8 @@ import UserProtectedWrapper from "./pages/UserProtectedWrapper";
 import UserLogout from "./pages/UserLogout";
 import CaptainHome from "./pages/CaptainHome";
 import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
+import Riding from "./pages/Riding";
+import "remixicon/fonts/remixicon.css";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -34,7 +36,7 @@ const App = () => {
     <UserContext>
       <div>
         {/* Modal for non-mobile screens */}
-        {!isMobile && <UnsupportedScreenModal />}
+        {isMobile && <UnsupportedScreenModal />}
 
         {/* App Routes */}
         <div className={`${!isMobile ? "overflow-hidden h-screen" : ""}`}>
@@ -52,6 +54,8 @@ const App = () => {
                 </UserProtectedWrapper>
               }
             />
+            <Route path="/riding" element={<Riding />} />
+
             <Route
               path="/user/logout"
               element={
