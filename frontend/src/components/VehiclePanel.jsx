@@ -38,7 +38,7 @@ const VehiclePanel = ({
   ];
 
   return (
-    <div className="p-6 bg-gray-50 rounded-lg shadow-lg">
+    <div className="p-6 bg-gray-50 rounded-t-2xl shadow-lg">
       {/* Drag Handle */}
       <h5
         className="p-1 text-center left-1/2 transform -translate-x-1/2  absolute top-0"
