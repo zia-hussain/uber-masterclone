@@ -18,7 +18,7 @@ const Home = () => {
   const [selectedRide, setSelectedRide] = useState(null);
   const [isRideConfirmed, setIsRideConfirmed] = useState(false);
   const [islookingForDriver, setLookingForDriver] = useState(false);
-  const [iswaitingForDriver, setWaitingForDriver] = useState(true);
+  const [iswaitingForDriver, setWaitingForDriver] = useState(false);
 
   // Refs for animations
   const vehiclePanelRef = useRef(null);
