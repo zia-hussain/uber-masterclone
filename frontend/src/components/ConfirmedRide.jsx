@@ -1,17 +1,28 @@
 import React from "react";
 import { FaRupeeSign } from "react-icons/fa6";
+import { MapPinHouse } from "lucide-react";
+import { FaTruckPickup } from "react-icons/fa6";
+import { RiArrowDownWideLine } from "react-icons/ri";
 
-const ConfirmedRide = ({ setIsRideConfirmed }) => {
+const ConfirmRide = ({ setIsRideConfirmed, setLookingForDriver }) => {
   return (
-    <div className=" w-full flex flex-col bg-white">
-      {/* Looking for drivers section */}
-      <div className="flex-1 flex flex-col items-center justify-start p-6 space-y-8">
-        <h1 className="text-2xl font-semibold text-center">
-          Looking for nearby drivers
+    <div className="w-full flex flex-col bg-white shadow-lg rounded-t-2xl">
+      {/* Header with close button */}
+      <div className="relative p-4 border-b">
+        <button
+          className="absolute left-1/2 transform -translate-x-1/2 top-0"
+          onClick={() => setIsRideConfirmed(false)}
+        >
+          <RiArrowDownWideLine className="text-gray-400 text-4xl" />
+        </button>
+        <h1 className="text-2xl font-semibold text-start mt-6">
+          Confirm Your Ride
         </h1>
+      </div>
 
-        {/* Animated Car Section */}
-        <div className="relative w-48 h-48">
+      {/* Ride Animation */}
+      <div className="flex flex-col items-center py-4">
+        <div className="relative w-48 h-48 ">
           <div className="absolute inset-0 bg-blue-100/50 rounded-full animate-pulse"></div>
           <div className="absolute inset-4 bg-blue-100 rounded-full animate-pulse delay-75"></div>
           <img
@@ -22,60 +33,61 @@ const ConfirmedRide = ({ setIsRideConfirmed }) => {
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
           />
         </div>
+      </div>
 
-        {/* Location Details */}
-        <div className="w-full space-y-6">
-          {/* Pickup Location */}
-          <div className="flex items-start space-x-4">
-            <div className="mt-1">
-              <div className="w-3 h-3 rounded-full bg-black"></div>
-            </div>
-            <div className="flex-1">
-              <h2 className="text-xl font-bold">562/11-A</h2>
-              <p className="text-gray-600">
-                Kaikondrahalli, Bengaluru, Karnataka
-              </p>
-            </div>
+      {/* Ride Details Section */}
+      <div className="flex-1 flex flex-col px-6 space-y-4">
+        {/* Pickup Location */}
+        <div className="flex items-start space-x-4">
+          <div className="mt-1">
+            <MapPinHouse className="text-blue-500" />
           </div>
+          <div className="flex-1">
+            <h2 className="text-xl font-bold">562/11-A</h2>
+            <p className="text-gray-600">
+              Kaikondrahalli, Bengaluru, Karnataka
+            </p>
+          </div>
+        </div>
 
-          {/* Destination */}
-          <div className="flex items-start space-x-4">
-            <div className="mt-1">
-              <div className="w-3 h-3 rounded bg-black"></div>
-            </div>
-            <div className="flex-1">
-              <h2 className="text-xl font-bold">Third Wave Coffee</h2>
-              <p className="text-gray-600">
-                17th Cross Rd, PWD Quarters, 1st Sector, HSR Layout, Bengaluru,
-                Karnataka
-              </p>
-            </div>
+        {/* Destination */}
+        <div className="flex items-start space-x-4">
+          <div className="mt-1">
+            <FaTruckPickup size={24} className="text-green-500" />
           </div>
+          <div className="flex-1">
+            <h2 className="text-xl font-bold">Third Wave Coffee</h2>
+            <p className="text-gray-600">
+              17th Cross Rd, PWD Quarters, 1st Sector, HSR Layout, Bengaluru,
+              Karnataka
+            </p>
+          </div>
+        </div>
 
-          {/* Price and Payment */}
-          <div className="flex items-center justify-between pt-4 border-t">
-            <div className="flex items-center space-x-2">
-              <FaRupeeSign className="w-5 h-5" />
-              <span className="text-xl font-bold">193.20</span>
-            </div>
-            <div className="text-gray-600">Cash Cash</div>
+        {/* Price and Payment */}
+        <div className="flex items-center justify-between py-4 border-t">
+          <div className="flex items-center space-x-4">
+            <FaRupeeSign className="w-5 h-5 text-black" />
+            <span className="text-xl font-bold">193.20</span>
           </div>
+          <div className="text-gray-600">Cash Payment</div>
         </div>
       </div>
 
-      {/* Cancel Button */}
-      <div
-        onClick={() => {
-          setIsRideConfirmed(false);
-        }}
-        className="p-4 border-t"
-      >
-        <button className="w-full py-3 bg-gray-100 text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors">
-          Cancel Ride
+      {/* Confirm Button */}
+      <div className="p-4 border-t">
+        <button
+          onClick={() => {
+            setIsRideConfirmed(false);
+            setLookingForDriver(true);
+          }}
+          className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+        >
+          Confirm Ride
         </button>
       </div>
     </div>
   );
 };
 
-export default ConfirmedRide;
+export default ConfirmRide;
