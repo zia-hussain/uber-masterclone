@@ -10,7 +10,7 @@ import axios from "axios";
 const CaptainSignup = () => {
   const navigate = useNavigate();
   const { captain, setCaptain } = useContext(CaptainDataContext);
-
+  const [loading, setLoading] = useState(false); // State for the loader
   const [formData, setFormData] = useState({
     fullname: { firstname: "", lastname: "" },
     email: "",
@@ -45,6 +45,7 @@ const CaptainSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const isFormValid = Object.entries(formData).every(([key, value]) => {
       if (typeof value === "object") {
@@ -66,6 +67,8 @@ const CaptainSignup = () => {
 
       setCaptain(data.captain);
       localStorage.setItem("token", data.token);
+      setLoading(false);
+
       navigate("/captain-home");
     } catch (error) {
       console.error("Signup error:", error.response?.data || error.message);
@@ -215,9 +218,13 @@ const CaptainSignup = () => {
 
           <button
             type="submit"
-            className="w-full bg-black text-white py-3 rounded-xl text-lg font-bold shadow-2xl transition"
+            className="w-full bg-black text-white py-3 rounded-xl text-lg font-bold shadow-2xl  transition flex items-center justify-center"
           >
-            Sign Up
+            {loading ? (
+              <span className="loader w-5 h-7 border-2 border-t-white border-blue-400 rounded-full animate-spin"></span>
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
 
