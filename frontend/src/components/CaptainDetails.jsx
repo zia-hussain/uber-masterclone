@@ -7,9 +7,9 @@ const CaptainDetails = () => {
         className={`absolute top-3 left-1/2 transform -translate-x-1/2 w-14 h-1 bg-gray-300 rounded-full mb-4 transition-all duration-300
   `}
       ></div>
-      <div className="p-6 h-full flex flex-col justify-around">
+      <div className="h-full flex flex-col justify-center">
         {/* Profile Header */}
-        <div className="flex items-center justify-between mb-6 h-14">
+        <div className="p-6 flex items-center justify-between mb-6 h-1/4 mt-4">
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-full overflow-hidden ]">
               <img
@@ -30,8 +30,8 @@ const CaptainDetails = () => {
         </div>
 
         {/* Stats Card */}
-        <div className="bg-[#FFD60A] rounded-lg p-4 w-full mb-6 h-36">
-          <div className="flex items-center justify-center h-full gap-4">
+        <div className="w-full p-6 h-3/4 ">
+          <div className="flex bg-[#FFD60A] rounded-lg items-center justify-center h-[90%] gap-4">
             <div className="text-center ">
               <div className="flex flex-col items-center justify-center gap-1">
                 <i className="text-3xl text-gray-600 font-thin ri-time-line"></i>
