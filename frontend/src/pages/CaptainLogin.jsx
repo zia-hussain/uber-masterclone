@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { MdEmail, MdLock } from "react-icons/md"; // React Icons for email and lock icons
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Icons for password visibility toggle
-import Logo from "../../public/Logo.svg"; // Logo asset
+import { MdEmail, MdLock } from "react-icons/md";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import Logo from "../../public/Logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CaptainDataContext } from "../context/CaptainContext";
@@ -14,8 +14,8 @@ const CaptainLogin = () => {
     email: "",
     password: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // State for the loader
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,26 +27,32 @@ const CaptainLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start the loader
 
-    const captain = {
-      email: formData.email,
-      password: formData.password,
-    };
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/captains/login`,
-      captain
-    );
-    if (response.status === 200) {
-      const data = response.data;
-      setCaptain(data.captain);
-      localStorage.setItem("token", data.token);
-      navigate("/captain-home");
+    try {
+      const captain = {
+        email: formData.email,
+        password: formData.password,
+      };
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/captains/login`,
+        captain
+      );
+      if (response.status === 200) {
+        const data = response.data;
+        setCaptain(data.captain);
+        localStorage.setItem("token", data.token);
+        navigate("/captain-home");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+    } finally {
+      setLoading(false); // Stop the loader
+      setFormData({
+        email: "",
+        password: "",
+      });
     }
-
-    setFormData({
-      email: "",
-      password: "",
-    });
   };
 
   const togglePasswordVisibility = () => {
@@ -55,14 +61,11 @@ const CaptainLogin = () => {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
-      {/* Header */}
       <header className="flex items-center py-4 px-4">
         <img src={Logo} alt="Uber Logo" className="w-24" />
       </header>
 
-      {/* Main Content */}
       <main className="max-w-lg mx-auto flex flex-col items-center justify-center flex-grow px-6">
-        {/* Heading */}
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight">
           Captain Login
         </h1>
@@ -70,9 +73,7 @@ const CaptainLogin = () => {
           Log in to manage your rides and get updates with{" "}
           <span className="font-bold text-gray-900">Uber Captain.</span>
         </p>
-        {/* Form */}
         <form onSubmit={handleSubmit} className="w-full">
-          {/* Email Input */}
           <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-4 shadow-sm border border-gray-300 focus-within:border-blue-500">
             <MdEmail className="text-gray-500 w-6 h-6 mr-3" />
             <input
@@ -85,7 +86,6 @@ const CaptainLogin = () => {
               required
             />
           </div>
-          {/* Password Input */}
           <div className="w-full flex items-center bg-gray-100 rounded-xl p-4 mb-6 shadow-sm border border-gray-300 focus-within:border-blue-500 relative">
             <MdLock className="text-gray-500 w-6 h-6 mr-3" />
             <input
@@ -97,7 +97,6 @@ const CaptainLogin = () => {
               className="flex-grow bg-transparent outline-none text-gray-800 text-base placeholder-gray-500"
               required
             />
-            {/* Password Toggle */}
             <button
               type="button"
               onClick={togglePasswordVisibility}
@@ -110,16 +109,18 @@ const CaptainLogin = () => {
               )}
             </button>
           </div>
-          {/* Login Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-xl text-lg font-bold shadow-2xl hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 text-white py-3 rounded-xl text-lg font-bold shadow-2xl hover:bg-blue-700 transition flex items-center justify-center"
           >
-            Log In
+            {loading ? (
+              <span className="loader w-5 h-7 border-2 border-t-white border-blue-400 rounded-full animate-spin"></span>
+            ) : (
+              "Log In"
+            )}
           </button>
         </form>
 
-        {/* Create Account Link */}
         <div className="mt-4 w-full text-center">
           <p className="text-gray-600">
             Don&apos;t have a captain account?{" "}
@@ -131,8 +132,6 @@ const CaptainLogin = () => {
             </Link>
           </p>
         </div>
-
-        {/* User Login Link */}
         <div className="mt-12 w-full">
           <Link
             to={"/login"}
@@ -142,8 +141,6 @@ const CaptainLogin = () => {
           </Link>
         </div>
       </main>
-
-      {/* Footer */}
       <footer className="text-center text-sm text-gray-500 mt-8 px-6">
         <p>
           By logging in, you agree to our{" "}
