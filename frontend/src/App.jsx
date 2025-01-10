@@ -14,6 +14,7 @@ import CaptainHome from "./pages/CaptainHome";
 import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
 import Riding from "./pages/Riding";
 import "remixicon/fonts/remixicon.css";
+import CaptainRiding from "./pages/CaptainRiding";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -69,6 +70,14 @@ const App = () => {
               element={
                 <CaptainProtectWrapper>
                   <CaptainHome />
+                </CaptainProtectWrapper>
+              }
+            />
+            <Route
+              path="/captain-riding"
+              element={
+                <CaptainProtectWrapper>
+                  <CaptainRiding />
                 </CaptainProtectWrapper>
               }
             />
