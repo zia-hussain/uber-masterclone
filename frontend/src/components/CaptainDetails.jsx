@@ -11,7 +11,7 @@ const CaptainDetails = () => {
         {/* Profile Header */}
         <div className="p-6 flex items-center justify-between mb-6 h-1/4 mt-4">
           <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-full overflow-hidden ]">
+            <div className="h-12 w-12 rounded-full overflow-hidden">
               <img
                 src="https://img.freepik.com/free-photo/young-adult-man-wearing-hoodie-beanie_23-2149393636.jpg"
                 alt="Captain"
