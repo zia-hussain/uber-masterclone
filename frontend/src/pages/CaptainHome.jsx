@@ -4,8 +4,26 @@ import Logo from "../../public/Logo.svg";
 import Map from "../assets/map.gif";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopUp from "../components/RidePopUp";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 
 const CaptainHome = () => {
+  const [isRidePopUp, setIsRidePopUp] = useState(false);
+
+  const ridePopUpRef = useRef(null);
+
+  useEffect(() => {
+    if (isRidePopUp) {
+      gsap.to(ridePopUpRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(ridePopUpRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [isRidePopUp]);
+
   return (
     <div className="h-screen ">
       <header className="flex justify-between items-center px-6 bg-white  relative z-10">
@@ -24,9 +42,10 @@ const CaptainHome = () => {
       </div>
 
       <div
-        className={`fixed bottom-0 left-0 z-20 w-full  bg-white shadow-lg rounded-t-2xl`}
+        ref={ridePopUpRef}
+        className={`fixed bottom-0 left-0 translate-y-full z-20 w-full bg-white shadow-lg rounded-t-2xl`}
       >
-        <RidePopUp />
+        <RidePopUp setIsRidePopUp={setIsRidePopUp} />
       </div>
     </div>
   );
