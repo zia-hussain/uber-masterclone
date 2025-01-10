@@ -203,7 +203,7 @@ const Home = () => {
       {/* Vehicle Panel */}
       <div
         ref={vehiclePanelRef}
-        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
+        className={`absolute bottom-0 translate-y-full left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
       >
         <VehiclePanel
           IsrideConfirmedRef={setIsRideConfirmed}
@@ -216,7 +216,7 @@ const Home = () => {
       {/* Confirmed Ride Panel */}
       <div
         ref={rideConfirmedRef}
-        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
+        className={`absolute bottom-0 translate-y-full left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
       >
         <ConfirmedRide
           setLookingForDriver={setLookingForDriver}
@@ -227,7 +227,7 @@ const Home = () => {
       {/* Looking for driver Panel */}
       <div
         ref={lookingForDriver}
-        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
+        className={`absolute bottom-0 translate-y-full left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
       >
         <LookingForDriver
           setWaitingForDriver={setWaitingForDriver}
@@ -237,7 +237,7 @@ const Home = () => {
 
       <div
         ref={waitingForDriver}
-        className={`absolute bottom-0 left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
+        className={`absolute bottom-0 translate-y-full left-0 z-20 w-full bg-white shadow-lg rounded-t-2xl`}
       >
         <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
       </div>
