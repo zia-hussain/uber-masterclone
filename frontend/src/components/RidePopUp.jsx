@@ -1,7 +1,7 @@
 import { FaRupeeSign } from "react-icons/fa6";
 import { RiArrowDownWideLine } from "react-icons/ri";
 
-const RidePopUp = ({ setIsRidePopUp }) => {
+const RidePopUp = ({ setIsRidePopUp, setConfirmIsRidePopUp }) => {
   return (
     <div>
       <div className="w-full flex flex-col gap-4 bg-white shadow-lg rounded-t-2xl">
@@ -87,10 +87,13 @@ const RidePopUp = ({ setIsRidePopUp }) => {
             Reject Ride
           </button>
           <button
-            onClick={() => {}}
+            onClick={() => {
+              setIsRidePopUp(false);
+              setConfirmIsRidePopUp(true);
+            }}
             className="w-full py-3 bg-[#FFD60A] text-black font-semibold rounded-lg hover:bg-opacity-80 transition-colors"
           >
-            Confirm Ride
+            Accept Ride
           </button>
         </div>
       </div>
