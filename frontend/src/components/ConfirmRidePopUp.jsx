@@ -1,3 +1,4 @@
+import { FaKey, FaMapMarkerAlt } from "react-icons/fa";
 import { FaRupeeSign } from "react-icons/fa6";
 import { RiArrowDownWideLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -76,25 +77,39 @@ const ConfirmRidePopUp = ({ setConfirmIsRidePopUp }) => {
         </div>
       </div>
 
-      {/* Confirm Button */}
-      <div className="p-4 flex gap-2">
-        <button
-          onClick={() => {
-            setConfirmIsRidePopUp(false);
-          }}
-          className="w-full py-3 text-gray-500 border font-semibold rounded-lg hover:bg-gray-50 transition-colors"
-        >
-          Reject Ride
-        </button>
-        <Link
-          to={"/captain-riding"}
-          onClick={() => {
-            setConfirmIsRidePopUp(false);
-          }}
-          className="w-full text-center py-3 bg-[#FFD60A] text-black font-semibold rounded-lg hover:bg-opacity-80 transition-colors"
-        >
-          Confirm Ride
-        </Link>
+      <div className="flex flex-col items-center w-full mx-auto space-y-4 h-full justify-end">
+        <div className="flex items-center space-x-2 w-[95%] mx-auto">
+          <div className="flex-shrink-0 p-3 rounded-full bg-[#FFD60A] text-gray-800">
+            <FaKey size={16} />
+          </div>
+          <input
+            type="text"
+            placeholder="Enter Your OTP"
+            className="flex-grow p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            // onFocus={handleExpand}
+          />
+        </div>
+
+        {/* Confirm Button */}
+        <div className="p-4 flex gap-2 w-[95%]">
+          <button
+            onClick={() => {
+              setConfirmIsRidePopUp(false);
+            }}
+            className="w-full py-3 text-gray-400 border font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            Reject Ride
+          </button>
+          <Link
+            to={"/captain-riding"}
+            onClick={() => {
+              setConfirmIsRidePopUp(false);
+            }}
+            className="w-full text-center py-3 bg-[#FFD60A] text-black font-semibold rounded-lg hover:bg-opacity-80 transition-colors"
+          >
+            Confirm Ride
+          </Link>
+        </div>
       </div>
     </div>
   );
