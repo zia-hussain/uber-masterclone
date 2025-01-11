@@ -3,8 +3,37 @@ import { FaLocationArrow } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../public/Logo.svg";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const CaptainRiding = () => {
+  const MySwal = withReactContent(Swal);
+
+  const handleDropOffConfirmation = () => {
+    MySwal.fire({
+      title: "Are you sure?",
+      text: "Do you want to finish this ride?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#FFD60A",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, finish it!",
+      cancelButtonText: "Cancel",
+      customClass: {
+        popup: "rounded-lg shadow-lg",
+        title: "font-semibold text-gray-800",
+        htmlContainer: "text-gray-600",
+        confirmButton: "font-semibold",
+        cancelButton: "font-semibold",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Redirect to the Drop-Off page or perform any action
+        navigate("/captain-home");
+      }
+    });
+  };
+
   const navigate = useNavigate();
   return (
     <div className="h-screen w-screen flex flex-col bg-gray-100">
@@ -77,11 +106,8 @@ const CaptainRiding = () => {
 
         {/* Action Buttons */}
         <div className="w-full flex gap-4">
-          <button className="w-full py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition">
-            Cancel Ride
-          </button>
           <Link
-            to="/drop-off"
+            onClick={handleDropOffConfirmation}
             className="w-full py-3 text-center bg-[#FFD60A] text-black font-semibold rounded-lg hover:bg-opacity-90 transition"
           >
             Drop Off
